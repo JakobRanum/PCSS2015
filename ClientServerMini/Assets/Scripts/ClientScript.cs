@@ -16,13 +16,20 @@ public class ClientScript : MonoBehaviour {
 
     public InputField IP;
     public InputField nick;
+	public InputField message; 
+	public Text chatContent; 
 
 	void Start () {
+		chatContent.text = ""; 
+		//client = new TcpClient (IPAddress, 11000);
+		//stream = client.GetStream (); 
+		//reader = new StreamReader (stream); 
+		//writer = new StreamWriter (stream) { AutoFlush = true }; 
+
 	}
 	
-//	void Update () {
-//	
-//	}
+	void Update () {
+	}
 
 
     public void parseIPAddress(){
@@ -34,4 +41,14 @@ public class ClientScript : MonoBehaviour {
         this.nickname = nick.text;
         print(this.nickname);
     }
+
+	public void initChatRoom(){
+		Application.LoadLevel ("Chatroom"); 
+	}
+
+	public void sendMessages(){
+		chatContent.text += message.text+"\n"; 
+		message.text = ""; 
+		message.interactable = true;
+	}
 }
