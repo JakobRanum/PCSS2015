@@ -1,5 +1,3 @@
-C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
-C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\obj\Debug\Assembly-CSharp.dll
 C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\Temp\bin\Debug\Assembly-CSharp.dll
 C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\Temp\bin\Debug\Assembly-CSharp.pdb
 C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\Temp\bin\Debug\UnityEditor.dll
@@ -18,4 +16,6 @@ C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\Te
 C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\Temp\bin\Debug\UnityEditor.xml
 C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\Temp\bin\Debug\UnityEngine.UI.xml
 C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\Temp\bin\Debug\UnityEngine.Networking.xml
+C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\obj\Debug\Assembly-CSharp.dll
 C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\obj\Debug\Assembly-CSharp.pdb
+C:\Users\User\Documents\GitHub\PCSS_P3_Client\PCSS_P3_Client\ClientServerMini\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache

@@ -4,7 +4,10 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine.UI;
-
+using System.Text;
+using System.Threading;
+using System;
+using System.Collections.Generic;
 
 
 
@@ -35,7 +38,7 @@ public class ClientScript : MonoBehaviour {
 	
 	void Update () {
 
-		recievedMessages();
+		//recievedMessages();
 
 	}
 
@@ -54,25 +57,25 @@ public class ClientScript : MonoBehaviour {
     }
 
 
-
-	public void sendMessages(){
-
-		writer.WriteLine (nickname + ": " + message.text);
-		message.text = "";
-		
-	}
+	
 
 	public void initConnection ()
 	{
 		if (this.nickname != "") {
 
 			
-			client = new TcpClient (IPAddress, 11000);
-			stream = client.GetStream (); 
-			reader = new StreamReader (stream); 
-			writer = new StreamWriter (stream) { AutoFlush = true };
+
+			//stream = client.GetStream (); 
+
+		
 			Lobby.SetActive(false);
 			Chat.SetActive(true);
+
+			client = new TcpClient (IPAddress, 11000);
+
+			Thread senderThread = new Thread (recievedMessages);
+			senderThread.Start(client);
+
 
 		} else if (this.nickname == "") {
 
@@ -82,16 +85,74 @@ public class ClientScript : MonoBehaviour {
 
 	}
 
-	public void recievedMessages ()
+	public void sendMessages (object argument)
 	{
+		TcpClient client = (TcpClient)argument;
+		writer = new StreamWriter (client.GetStream(), Encoding.ASCII) { AutoFlush = true };
 
-		if (reader.ReadLine () != null) {
 
-			chatContent.text += reader.ReadLine () + "\n";
-
+		while (Chat.activeSelf == true) {
+			writer.WriteLine (nickname + ": " + message.text);
+			message.text = "";
 		}
 
+
 	}
+
+	public List<String> messages = new List<string>();
+
+	public void recievedMessages (object argument)
+	{
+
+		TcpClient client = (TcpClient)argument;
+
+			try{
+				StreamReader reader = new StreamReader(client.GetStream(), Encoding.ASCII);
+
+				Console.WriteLine("Now listening to client");
+
+				while (client.Connected) {
+					if (true) {
+						try{
+							string message = reader.ReadLine();
+							if (message != null){
+
+								addMSG(message);
+								messages.Add(message);
+							}
+
+						}
+						catch{
+							reader.Close();
+							client.Close();
+							Console.WriteLine("Connection Error");
+							break;
+						}
+					}
+				}
+				Console.WriteLine("Client disconnected");
+
+			}
+
+		catch (ThreadAbortException){
+				client.Close();
+				Console.WriteLine("Connection error...");
+			}
+
+			finally{
+				Console.WriteLine("finally");
+			}
+
+
+
+						
+	}
+	public void addMSG (String msg)
+	{
+		Debug.Log(msg);
+		chatContent.text += msg + "\n";
+	}
+
 
 	// Here we quit
 	public void quit ()
@@ -104,9 +165,14 @@ public class ClientScript : MonoBehaviour {
 	//Here we go back to lobby
 	public void backToLobby ()
 	{
+		//StopCoroutine(recievedMessages());
+		//StopCoroutine(sendMessages());
+
 		Lobby.SetActive(true); //this sets the lobbycontent to true
 		Chat.SetActive(false); //this is chatcontent setactive to false.
 		nick.text = ""; // Here we set the nickname to empty string
+
 	}
+
 
 }
