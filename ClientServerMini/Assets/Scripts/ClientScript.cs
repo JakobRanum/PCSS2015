@@ -14,6 +14,8 @@ public class ClientScript : MonoBehaviour {
     StreamReader reader;
     StreamWriter writer;
 
+    Text text; 
+
     public GameObject Lobby;
     public GameObject Chat;
 
@@ -25,11 +27,13 @@ public class ClientScript : MonoBehaviour {
 	public InputField message; 
 	public Text chatContent; 
 
+    Vector2 scroll;
+
 	void Start () {
 		chatContent.text = ""; 
 		Lobby.SetActive(true);
 		Chat.SetActive(false);
-
+        
 
 	}
 	
@@ -57,8 +61,9 @@ public class ClientScript : MonoBehaviour {
 
 	public void sendMessages(){
 
-		writer.WriteLine (nickname + ": " + message.text);
-		message.text = "";
+		//writer.WriteLine (nickname + ": " + message.text);
+        chatContent.text += message.text + "\n";
+        message.text = "";
 		
 	}
 
@@ -66,13 +71,13 @@ public class ClientScript : MonoBehaviour {
 	{
 		if (this.nickname != "") {
 
-			
+            Lobby.SetActive(false);
+            Chat.SetActive(true);
 			client = new TcpClient (IPAddress, 11000);
 			stream = client.GetStream (); 
 			reader = new StreamReader (stream); 
 			writer = new StreamWriter (stream) { AutoFlush = true };
-			Lobby.SetActive(false);
-			Chat.SetActive(true);
+
 
 		} else if (this.nickname == "") {
 
@@ -86,9 +91,7 @@ public class ClientScript : MonoBehaviour {
 	{
 
 		if (reader.ReadLine () != null) {
-
 			chatContent.text += reader.ReadLine () + "\n";
-
 		}
 
 	}
@@ -108,5 +111,12 @@ public class ClientScript : MonoBehaviour {
 		Chat.SetActive(false); //this is chatcontent setactive to false.
 		nick.text = ""; // Here we set the nickname to empty string
 	}
+
+    public void scrollBar(){
+        float y = 0f; 
+        y += 10; 
+        scroll = new Vector2(0f, y); 
+
+    }
 
 }
