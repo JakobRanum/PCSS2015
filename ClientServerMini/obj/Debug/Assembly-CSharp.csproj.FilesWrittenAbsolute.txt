@@ -1,0 +1,17 @@
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/UnityEngine.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/UnityEditor.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Mono.Cecil.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Unity.DataContract.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/obj/Debug/Assembly-CSharp.dll
+/Users/Jakob/Projects/PCSS_finalProject/PCSS_P3_Client/ClientServerMini/obj/Debug/Assembly-CSharp.dll.mdb
