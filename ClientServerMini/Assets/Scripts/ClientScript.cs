@@ -5,11 +5,17 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine.UI;
 
+
+
+
 public class ClientScript : MonoBehaviour {
     TcpClient client;
     NetworkStream stream;
     StreamReader reader;
     StreamWriter writer;
+
+    public GameObject Lobby;
+    public GameObject Chat;
 
     public string IPAddress;
     public string nickname;
@@ -21,14 +27,16 @@ public class ClientScript : MonoBehaviour {
 
 	void Start () {
 		chatContent.text = ""; 
-		//client = new TcpClient (IPAddress, 11000);
-		//stream = client.GetStream (); 
-		//reader = new StreamReader (stream); 
-		//writer = new StreamWriter (stream) { AutoFlush = true }; 
+		Lobby.SetActive(true);
+		Chat.SetActive(false);
+
 
 	}
 	
 	void Update () {
+
+		recievedMessages();
+
 	}
 
 
@@ -38,17 +46,67 @@ public class ClientScript : MonoBehaviour {
     }
 
     public void parseNickname(){
+    	
+
         this.nickname = nick.text;
         print(this.nickname);
+
     }
 
-	public void initChatRoom(){
-		Application.LoadLevel ("Chatroom"); 
-	}
+
 
 	public void sendMessages(){
-		chatContent.text += message.text+"\n"; 
-		message.text = ""; 
-		message.interactable = true;
+
+		writer.WriteLine (nickname + ": " + message.text);
+		message.text = "";
+		
 	}
+
+	public void initConnection ()
+	{
+		if (this.nickname != "") {
+
+			
+			client = new TcpClient (IPAddress, 11000);
+			stream = client.GetStream (); 
+			reader = new StreamReader (stream); 
+			writer = new StreamWriter (stream) { AutoFlush = true };
+			Lobby.SetActive(false);
+			Chat.SetActive(true);
+
+		} else if (this.nickname == "") {
+
+			nick.GetComponent<Image> ().color = Color.red;	
+	
+		}
+
+	}
+
+	public void recievedMessages ()
+	{
+
+		if (reader.ReadLine () != null) {
+
+			chatContent.text += reader.ReadLine () + "\n";
+
+		}
+
+	}
+
+	// Here we quit
+	public void quit ()
+	{
+		Application.Quit(); //This is application quit.
+
+
+	}
+
+	//Here we go back to lobby
+	public void backToLobby ()
+	{
+		Lobby.SetActive(true); //this sets the lobbycontent to true
+		Chat.SetActive(false); //this is chatcontent setactive to false.
+		nick.text = ""; // Here we set the nickname to empty string
+	}
+
 }
