@@ -2,7 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ClientScript.cs">
     <Files>
+<<<<<<< HEAD
       <File FileName="Assets/Scripts/ClientScript.cs" Line="36" Column="9" />
+=======
+      <File FileName="Assets\Scripts\ClientScript.cs" Line="130" Column="8" />
+>>>>>>> 63896811e36496b3270c04876db7b506b3c6e3e1
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

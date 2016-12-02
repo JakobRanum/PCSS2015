@@ -4,7 +4,10 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine.UI;
-
+using System.Text;
+using System.Threading;
+using System;
+using System.Collections.Generic;
 
 
 
@@ -14,8 +17,6 @@ public class ClientScript : MonoBehaviour {
     StreamReader reader;
     StreamWriter writer;
 
-    Text text; 
-
     public GameObject Lobby;
     public GameObject Chat;
 
@@ -24,24 +25,29 @@ public class ClientScript : MonoBehaviour {
 
     public InputField IP;
     public InputField nick;
-	public InputField message; 
-	public Text chatContent; 
+    public InputField message; 
+    public Text chatContent; 
 
-    Vector2 scroll;
+    void Start () {
+        chatContent.text = ""; 
+        Lobby.SetActive(true);
+        Chat.SetActive(false);
 
-	void Start () {
-		chatContent.text = ""; 
-		Lobby.SetActive(true);
-		Chat.SetActive(false);
-        
 
-	}
-	
-	void Update () {
+    }
 
-		recievedMessages();
-
-	}
+    void Update () {
+        try{
+            chatContent.text = "";
+            for (int i = 0; i < messenger.list.Count; i++) {
+                chatContent.text += messenger.list[i] + "\n"; 
+            }
+        }
+        catch{
+            chatContent.text = ""; 
+            Debug.Log ("no messages");
+        }
+    }
 
 
     public void parseIPAddress(){
@@ -50,73 +56,124 @@ public class ClientScript : MonoBehaviour {
     }
 
     public void parseNickname(){
-    	
-
         this.nickname = nick.text;
         print(this.nickname);
-
     }
 
 
-
-	public void sendMessages(){
-
-		//writer.WriteLine (nickname + ": " + message.text);
-        chatContent.text += message.text + "\n";
-        message.text = "";
-		
-	}
-
-	public void initConnection ()
-	{
-		if (this.nickname != "") {
+    public void initConnection ()
+    {
+        if (this.nickname != "") {
 
             Lobby.SetActive(false);
             Chat.SetActive(true);
-			client = new TcpClient (IPAddress, 11000);
-			stream = client.GetStream (); 
-			reader = new StreamReader (stream); 
-			writer = new StreamWriter (stream) { AutoFlush = true };
+
+            client = new TcpClient (IPAddress, 11000);
+
+            Thread recieverThread = new Thread (recievedMessages);
+            recieverThread.Start(client);
+
+            Thread senderThread = new Thread (sendMessages);
+            senderThread.Start(client);
+
+        } else if (this.nickname == "") {
+            nick.GetComponent<Image> ().color = Color.red;  
+        }
+    }
+
+    public void sendMessages (object argument) {
+        TcpClient client = (TcpClient)argument;
+        writer = new StreamWriter (client.GetStream(), Encoding.ASCII) { AutoFlush = true };
+
+        while (true) {
+            if (messenger.messageToSend != "") {
+                writer.WriteLine (nickname + ": " + messenger.messageToSend);
+                messenger.messageToSend = "";
+            }
+            Thread.Sleep (20);
+        }
+    }
 
 
-		} else if (this.nickname == "") {
-
-			nick.GetComponent<Image> ().color = Color.red;	
-	
-		}
-
-	}
-
-	public void recievedMessages ()
-	{
-
-		if (reader.ReadLine () != null) {
-			chatContent.text += reader.ReadLine () + "\n";
-		}
-
-	}
-
-	// Here we quit
-	public void quit ()
-	{
-		Application.Quit(); //This is application quit.
+    public void OutBoxMessage(string msg) {
+        messenger.messageToSend = message.text;
+        Debug.Log (message.text);
+        message.text = "";
+    }
 
 
-	}
 
-	//Here we go back to lobby
-	public void backToLobby ()
-	{
-		Lobby.SetActive(true); //this sets the lobbycontent to true
-		Chat.SetActive(false); //this is chatcontent setactive to false.
-		nick.text = ""; // Here we set the nickname to empty string
-	}
+    public void recievedMessages (object argument)
+    {
 
-    public void scrollBar(){
-        float y = 0f; 
-        y += 10; 
-        scroll = new Vector2(0f, y); 
+        TcpClient client = (TcpClient)argument;
+
+        try{
+            StreamReader reader = new StreamReader(client.GetStream(), Encoding.ASCII);
+            Console.WriteLine("Now listening to client");
+
+            while (client.Connected) {
+                if (true) {
+                    try{
+                        string message = reader.ReadLine();
+                        if (message != null){
+                            messenger.list.Add(message);
+                        }
+
+                    }
+                    catch{
+                        reader.Close();
+                        client.Close();
+                        Console.WriteLine("Connection Error");
+                        break;
+                    }
+                }
+            }
+            Console.WriteLine("Client disconnected");
+
+        }
+
+        catch (ThreadAbortException){
+            client.Close();
+            Console.WriteLine("Connection error...");
+        }
+
+        finally{
+            Console.WriteLine("finally");
+        }
+
+
+
 
     }
 
+
+
+    // Here we quit
+    public void quit ()
+    {
+        Application.Quit(); //This is application quit.
+
+
+    }
+
+    //Here we go back to lobby
+    public void backToLobby ()
+    {
+        //StopCoroutine(recievedMessages());
+        //StopCoroutine(sendMessages());
+
+        Lobby.SetActive(true); //this sets the lobbycontent to true
+        Chat.SetActive(false); //this is chatcontent setactive to false.
+        nick.text = ""; // Here we set the nickname to empty string
+
+    }
+
+
+
+}
+
+public static class messenger{
+    public static string messageToSend = "";
+    public static List<String> list = new List<string>();
 }
