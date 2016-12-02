@@ -19,6 +19,7 @@ public class ClientScript : MonoBehaviour {
 
     public GameObject Lobby;
     public GameObject Chat;
+    public GameObject scrollBar;
 
     public string IPAddress;
     public string nickname;
@@ -41,6 +42,11 @@ public class ClientScript : MonoBehaviour {
             chatContent.text = "";
             for (int i = 0; i < messenger.list.Count; i++) {
                 chatContent.text += messenger.list[i] + "\n"; 
+            }
+            if(messenger.scrollToBottom == true)
+            {
+                scrollBar.GetComponent<Scrollbar>().value = 0f;
+                messenger.scrollToBottom = false;
             }
         }
         catch{
@@ -116,8 +122,10 @@ public class ClientScript : MonoBehaviour {
                 if (true) {
                     try{
                         string message = reader.ReadLine();
-                        if (message != null){
+                        if (message != null) {
+                            print(message);
                             messenger.list.Add(message);
+                            messenger.scrollToBottom = true;
                         }
 
                     }
@@ -176,4 +184,7 @@ public class ClientScript : MonoBehaviour {
 public static class messenger{
     public static string messageToSend = "";
     public static List<String> list = new List<string>();
+    public static bool scrollToBottom = false;
+
+
 }
